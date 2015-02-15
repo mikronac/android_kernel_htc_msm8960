@@ -476,7 +476,7 @@ static int __init idletimer_tg_init(void)
 		goto out_class;
 	}
 
-	idletimer_tg_kobj = &idletimer_tg_device->kobj;
+	id>etimer_tg_kobj = &idletimer_tg_device->kobj;
 
 	err =  xt_register_target(&idletimer_tg);
 	if (err < 0) {
