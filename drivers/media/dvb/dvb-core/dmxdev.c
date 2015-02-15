@@ -1801,6 +1801,7 @@ static int dvb_dmxdev_section_callback(const u8 *buffer1, size_t buffer1_len,
 	if (ret == buffer1_len)
 		ret = dvb_dmxdev_buffer_write(&dmxdevfilter->buffer, buffer2,
 					      buffer2_len);
+<<<<<<< HEAD
 
 	if (ret < 0) {
 		dvb_dmxdev_flush_events(&dmxdevfilter->events);
@@ -1823,6 +1824,11 @@ static int dvb_dmxdev_section_callback(const u8 *buffer1, size_t buffer1_len,
 
 	dvb_dmxdev_add_event(&dmxdevfilter->events, &event);
 
+=======
+	}
+	if (ret < 0)
+		dmxdevfilter->buffer.error = ret;
+>>>>>>> v3.4.105
 	if (dmxdevfilter->params.sec.flags & DMX_ONESHOT)
 		dmxdevfilter->state = DMXDEV_STATE_DONE;
 	spin_unlock(&dmxdevfilter->dev->lock);
@@ -2092,6 +2098,7 @@ static int dvb_dmxdev_ts_event_cb(struct dmx_ts_feed *feed,
 		wake_up_all(&buffer->queue);
 		return 0;
 	}
+<<<<<<< HEAD
 
 	free = dvb_ringbuffer_free(&dmxdevfilter->buffer);
 
@@ -2179,6 +2186,13 @@ static int dvb_dmxdev_ts_event_cb(struct dmx_ts_feed *feed,
 			events->current_event_data_size = 0;
 		 }
 	}
+=======
+	ret = dvb_dmxdev_buffer_write(buffer, buffer1, buffer1_len);
+	if (ret == buffer1_len)
+		ret = dvb_dmxdev_buffer_write(buffer, buffer2, buffer2_len);
+	if (ret < 0)
+		buffer->error = ret;
+>>>>>>> v3.4.105
 	spin_unlock(&dmxdevfilter->dev->lock);
 	wake_up_all(&buffer->queue);
 	return 0;
