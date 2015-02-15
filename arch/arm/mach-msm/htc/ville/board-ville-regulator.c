@@ -507,13 +507,13 @@ struct regulator_init_data msm_saw_regulator_pdata_s5 =
 #ifdef CONFIG_CPU_OVERCLOCK
 	SAW_VREG_INIT(S5, "8921_s5",	       700000, 1450000);
 #else
-	SAW_VREG_INIT(S5, "8921_s5",	       800000, 1300000);
+	SAW_VREG_INIT(S5, "8921_s5",	       850000, 1300000);
 #endif
 struct regulator_init_data msm_saw_regulator_pdata_s6 =
 #ifdef CONFIG_CPU_OVERCLOCK
 	SAW_VREG_INIT(S6, "8921_s6",	       700000, 1450000);
 #else
-	SAW_VREG_INIT(S6, "8921_s6",	       800000, 1300000);
+	SAW_VREG_INIT(S6, "8921_s6",	       850000, 1300000);
 #endif
 
 /* PM8921 regulator constraints */
