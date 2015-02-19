@@ -267,7 +267,6 @@ config SCSI_WAIT_SCAN
 	tristate "Wait for SCSI scan completion"
 	default m
 	depends on SCSI
-	depends on MODULES
 	help
 	  The SCSI subsystem can probe for devices while the rest of the
 	  system continues booting, and even probe devices on different
