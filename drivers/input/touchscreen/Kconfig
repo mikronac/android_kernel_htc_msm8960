@@ -1036,7 +1036,7 @@ config TOUCHSCREEN_CYPRESS_CS
 config TOUCHSCREEN_CYPRESS_SWEEP2WAKE
         tristate "Sweep2Wake for Cypress CS touchscreens"
         depends on TOUCHSCREEN_CYPRESS_CS
-        default n
+        default y
 
 config TOUCHSCREEN_SYNAPTICS_3K
 	tristate "Synaptics 3K i2c touchscreen"
