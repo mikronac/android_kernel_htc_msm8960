@@ -112,8 +112,4 @@ struct pm8xxx_led_data {
 };
 void pm8xxx_led_current_set_for_key(int brightness_key);
 
-#ifdef CONFIG_BLN
-extern int bln; 
-#endif
-
 #endif 
