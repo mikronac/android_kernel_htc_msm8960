@@ -578,7 +578,7 @@ static struct resource resources_uart_gsbi8[] = {
 
 struct platform_device msm8960_device_uart_gsbi8 = {
 	.name	= "msm_serial_hsl",
-#ifdef CONFIG_MACH_M4_UL
+#if defined(CONFIG_MACH_M4_UL) || defined(CONFIG_MACH_ZARA)
 	.id	= 0,
 #else
 	.id	= 1,
@@ -1198,6 +1198,9 @@ struct msm_vidc_platform_data vidc_platform_data = {
 #endif
 	.disable_dmx = 0,
 	.disable_fullhd = 0,
+#if !defined(CONFIG_ARCH_APQ8064) && !defined(CONFIG_ARCH_MSM8930)
+	.disable_turbo = 1,
+#endif
 	.cont_mode_dpb_count = 18,
 	.fw_addr = 0x9fe00000,
 	.enable_sec_metadata = 0,
@@ -1879,6 +1882,20 @@ static struct resource resources_qup_i2c_gsbi2[] = {
 		.end	= MSM8960_GSBI2_QUP_IRQ,
 		.flags	= IORESOURCE_IRQ,
 	},
+#ifdef CONFIG_MACH_ZARA
+	{
+		.name	= "i2c_sda",
+		.start	= 12,
+		.end	= 12,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "i2c_clk",
+		.start	= 13,
+		.end	= 13,
+		.flags	= IORESOURCE_IO,
+	},
+#endif
 };
 
 struct platform_device msm8960_device_qup_i2c_gsbi2 = {
@@ -1947,6 +1964,20 @@ static struct resource resources_qup_i2c_gsbi8[] = {
 		.end	= GSBI8_QUP_IRQ,
 		.flags	= IORESOURCE_IRQ,
 	},
+#ifdef CONFIG_MACH_ZARA
+	{
+		.name	= "i2c_sda",
+		.start	= 36,
+		.end	= 36,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "i2c_clk",
+		.start	= 37,
+		.end	= 37,
+		.flags	= IORESOURCE_IO,
+	},
+#endif
 };
 
 struct platform_device msm8960_device_qup_i2c_gsbi8 = {
@@ -1975,6 +2006,20 @@ static struct resource resources_qup_i2c_gsbi3[] = {
 		.end	= GSBI3_QUP_IRQ,
 		.flags	= IORESOURCE_IRQ,
 	},
+#ifdef CONFIG_MACH_ZARA
+	{
+		.name	= "i2c_sda",
+		.start	= 16,
+		.end	= 16,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "i2c_clk",
+		.start	= 17,
+		.end	= 17,
+		.flags	= IORESOURCE_IO,
+	},
+#endif
 };
 
 struct platform_device msm8960_device_qup_i2c_gsbi3 = {
@@ -2003,6 +2048,20 @@ static struct resource resources_qup_i2c_gsbi5[] = {
 		.end	= GSBI5_QUP_IRQ,
 		.flags	= IORESOURCE_IRQ,
 	},
+#ifdef CONFIG_MACH_ZARA
+	{
+		.name	= "i2c_sda",
+		.start	= 24,
+		.end	= 24,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "i2c_clk",
+		.start	= 25,
+		.end	= 25,
+		.flags	= IORESOURCE_IO,
+	},
+#endif
 };
 
 struct platform_device msm8960_device_qup_i2c_gsbi5 = {
@@ -2031,11 +2090,29 @@ static struct resource resources_qup_i2c_gsbi9[] = {
 		.end	= GSBI9_QUP_IRQ,
 		.flags	= IORESOURCE_IRQ,
 	},
+#ifdef CONFIG_MACH_ZARA
+	{
+		.name	= "i2c_sda",
+		.start	= 95,
+		.end	= 95,
+		.flags	= IORESOURCE_IO,
+	},
+	{
+		.name	= "i2c_clk",
+		.start	= 96,
+		.end	= 96,
+		.flags	= IORESOURCE_IO,
+	},
+#endif
 };
 
 struct platform_device msm8960_device_qup_i2c_gsbi9 = {
 	.name		= "qup_i2c",
+#ifdef CONFIG_MACH_ZARA
+	.id		= 9,
+#else
 	.id		= 0,
+#endif
 	.num_resources	= ARRAY_SIZE(resources_qup_i2c_gsbi9),
 	.resource	= resources_qup_i2c_gsbi9,
 };
@@ -3317,12 +3394,26 @@ static struct msm_dcvs_freq_entry grp3d_freq[] = {
 	{0, 900, 0, 0, 0},
 	{0, 950, 0, 0, 0},
 	{0, 950, 0, 0, 0},
+#ifdef CONFIG_GPU_OVERCLOCK
+	{0, 1200, 0, 0, 0},
+	{0, 1200, 0, 0, 0},
+	{0, 1200, 0, 0, 0},
 	{0, 1200, 1, 100, 100},
+#else
+	{0, 1200, 1, 100, 100},
+#endif
 };
 
 static struct msm_dcvs_freq_entry grp2d_freq[] = {
 	{0, 900, 0, 0, 0},
+#ifdef CONFIG_GPU_OVERCLOCK
+	{0, 950, 0, 0, 0},
+	{0, 950, 0, 0, 0},
+	{0, 950, 0, 0, 0},
 	{0, 950, 1, 100, 100},
+#else
+	{0, 950, 1, 100, 100},
+#endif
 };
 
 static struct msm_dcvs_core_info grp3d_core_info = {
@@ -3636,6 +3727,23 @@ static struct kgsl_device_iommu_data kgsl_3d0_iommu_data[] = {
 
 static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 	.pwrlevel = {
+#ifdef CONFIG_GPU_OVERCLOCK
+		{
+			.gpu_freq = 512000000,
+			.bus_freq = 4,
+			.io_fraction = 0,
+		},
+		{
+			.gpu_freq = 480000000,
+			.bus_freq = 4,
+			.io_fraction = 0,
+		},
+		{
+			.gpu_freq = 436364000,
+			.bus_freq = 4,
+			.io_fraction = 0,
+		},
+#endif
 		{
 			.gpu_freq = 400000000,
 			.bus_freq = 4,
@@ -3661,7 +3769,11 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 			.bus_freq = 0,
 		},
 	},
+#ifdef CONFIG_GPU_OVERCLOCK
+	.init_level = 3,
+#else
 	.init_level = 1,
+#endif
 	.num_levels = ARRAY_SIZE(grp3d_freq) + 1,
 	.set_grp_async = NULL,
 	.idle_timeout = HZ/12,
@@ -3717,6 +3829,20 @@ static struct kgsl_device_iommu_data kgsl_2d0_iommu_data[] = {
 
 static struct kgsl_device_platform_data kgsl_2d0_pdata = {
 	.pwrlevel = {
+#ifdef CONFIG_GPU_OVERCLOCK
+		{
+			.gpu_freq = 320000000,
+			.bus_freq = 2,
+		},
+		{
+			.gpu_freq = 300000000,
+			.bus_freq = 2,
+		},
+		{
+			.gpu_freq = 266667000,
+			.bus_freq = 2,
+		},
+#endif
 		{
 			.gpu_freq = 200000000,
 			.bus_freq = 2,
@@ -3730,7 +3856,11 @@ static struct kgsl_device_platform_data kgsl_2d0_pdata = {
 			.bus_freq = 0,
 		},
 	},
+#ifdef CONFIG_GPU_OVERCLOCK
+	.init_level = 3,
+#else
 	.init_level = 0,
+#endif
 	.num_levels = ARRAY_SIZE(grp2d_freq) + 1,
 	.set_grp_async = NULL,
 	.idle_timeout = HZ/5,
@@ -3786,6 +3916,20 @@ static struct resource kgsl_2d1_resources[] = {
 
 static struct kgsl_device_platform_data kgsl_2d1_pdata = {
 	.pwrlevel = {
+#ifdef CONFIG_GPU_OVERCLOCK
+		{
+			.gpu_freq = 320000000,
+			.bus_freq = 2,
+		},
+		{
+			.gpu_freq = 300000000,
+			.bus_freq = 2,
+		},
+		{
+			.gpu_freq = 266667000,
+			.bus_freq = 2,
+		},
+#endif
 		{
 			.gpu_freq = 200000000,
 			.bus_freq = 2,
@@ -3799,7 +3943,11 @@ static struct kgsl_device_platform_data kgsl_2d1_pdata = {
 			.bus_freq = 0,
 		},
 	},
+#ifdef CONFIG_GPU_OVERCLOCK
+	.init_level = 3,
+#else
 	.init_level = 0,
+#endif
 	.num_levels = ARRAY_SIZE(grp2d_freq) + 1,
 	.set_grp_async = NULL,
 	.idle_timeout = HZ/5,

@@ -22,7 +22,11 @@
 #define KGSL_CLK_AXI	0x00000020
 #define KGSL_CLK_ALT_MEM_IFACE 0x00000040
 
+#ifdef CONFIG_GPU_OVERCLOCK
+#define KGSL_MAX_PWRLEVELS 8
+#else 
 #define KGSL_MAX_PWRLEVELS 5
+#endif
 
 #define KGSL_CONVERT_TO_MBPS(val) \
 	(val*1000*1000U)
@@ -40,6 +44,10 @@
 	 (((_ma) & 0xFF) << 16) | \
 	 (((_mi) & 0xFF) << 8) | \
 	 ((_pa) & 0xFF))
+
+#ifdef CONFIG_CPU_FREQ_GOV_ELEMENTALX
+extern int graphics_boost;
+#endif
 
 enum kgsl_iommu_context_id {
 	KGSL_IOMMU_CONTEXT_USER = 0,

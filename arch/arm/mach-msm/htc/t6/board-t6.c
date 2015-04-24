@@ -144,7 +144,7 @@ struct pm8xxx_gpio_init {
 #define MSM_ION_MFC_META_SIZE  0x40000 /* 256 Kbytes */
 #define MSM_CONTIG_MEM_SIZE  0x65000
 #ifdef CONFIG_MSM_IOMMU
-#define MSM_ION_MM_SIZE		0x4800000
+#define MSM_ION_MM_SIZE		0x5400000
 #define MSM_ION_SF_SIZE		0
 #define MSM_ION_QSECOM_SIZE	0x780000 /* (7.5MB) */
 #ifdef CONFIG_CMA
@@ -4581,16 +4581,16 @@ static void __init t6_cdp_init(void)
 		t6_add_usb_devices();
 }
 
-#define PHY_BASE_ADDR1  0x80600000
-#define SIZE_ADDR1      (136 * 1024 * 1024)
+#define PHY_BASE_ADDR1	0x80600000
+#define SIZE_ADDR1	(134 * 1024 * 1024)
 
-#define PHY_BASE_ADDR2  0x89000000
-#define SIZE_ADDR2      (55 * 1024 * 1024)
+#define PHY_BASE_ADDR2	0x89000000
+#define SIZE_ADDR2	(63 * 1024 * 1024)
 
-#define PHY_BASE_ADDR3  0x90000000
-#define SIZE_ADDR3      (768 * 1024 * 1024)
+#define PHY_BASE_ADDR3	0x90000000
+#define SIZE_ADDR3	(768 * 1024 * 1024)
 
-#define DDR_1GB_SIZE      (1024 * 1024 * 1024)
+#define DDR_1GB_SIZE	(1024 * 1024 * 1024)
 
 extern int parse_tag_memsize(const struct tag *tags);
 unsigned skuid;

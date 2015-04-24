@@ -1592,6 +1592,32 @@ config MSM_CPU_FREQ_MIN
 
 endif # CPU_FREQ_MSM
 
+config GPU_OVERCLOCK
+  bool "Enable GPU Overclocking option"
+  default n
+  help
+    Krait S4 GPU overclocking 
+
+config CPU_OVERCLOCK
+	bool "Enable CPU Overclocking option"
+	default n
+	help
+	  Enable CPU overclock for Krait S4 socs
+
+config CPU_VOLTAGE_TABLE
+	bool "Enable CPU Voltage Table via sysfs for adjustements"
+	default n
+	help
+	  Krait User Votlage Control
+
+config BYPASS_KRAIT_NEEDS_VMIN
+	bool "bypass qualcomm Vmin patch"
+	default n
+	help
+		qualcomm force all frequencies to 1150mv for some chipset
+		to improve stability. if you say "Y" stock voltage table 
+		will be used
+
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
 	default n
@@ -2609,4 +2635,10 @@ config MSM_USE_USER_ACCESSIBLE_TIMERS
 	  Enables MSM-specific user accessible timers via a shared
 	  memory page containing the cycle counter.
 
+config FORCE_FAST_CHARGE
+	bool "Force AC charge mode at will"
+	default y
+	help
+	  A simple sysfs interface to force adapters that
+	  are detected as USB to charge as AC.
 endif
