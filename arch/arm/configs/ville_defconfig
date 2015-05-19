@@ -1,8 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-
-# Linux/arm 3.4.106 Kernel Configuration
-
+# Linux/arm 3.4.107 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_ARM_HAS_SG_CHAIN=y
@@ -125,7 +123,13 @@ CONFIG_RD_LZMA=y
 # CONFIG_RD_XZ is not set
 # CONFIG_RD_LZO is not set
 # CONFIG_RD_LZ4 is not set
-CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+# CONFIG_CC_OPTIMIZE_FOR_DEBUG is not set
+# CONFIG_CC_OPTIMIZE_NONE is not set
+# CONFIG_CC_OPTIMIZE_SOME is not set
+# CONFIG_CC_OPTIMIZE_MORE is not set
+CONFIG_CC_OPTIMIZE_ALOT=y
+# CONFIG_CC_OPTIMIZE_FAST is not set
 CONFIG_SYSCTL=y
 CONFIG_ANON_INODES=y
 CONFIG_PANIC_TIMEOUT=5
@@ -3521,8 +3525,6 @@ CONFIG_CRYPTO_TWOFISH_COMMON=y
 CONFIG_CRYPTO_DEFLATE=y
 # CONFIG_CRYPTO_ZLIB is not set
 # CONFIG_CRYPTO_LZO is not set
-# CONFIG_CRYPTO_LZ4 is not set
-# CONFIG_CRYPTO_LZ4HC is not set
 
 #
 # Random Number Generation
