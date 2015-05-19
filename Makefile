@@ -245,8 +245,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -pipe -floop-nest-optimize -flto
-HOSTCXXFLAGS = -O3 -pipe -floop-nest-optimize -flto
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
+HOSTCXXFLAGS = -O2
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -352,22 +352,13 @@ CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 
-CUSTOM_FLAG	= -fgcse-lm -fgcse-sm -fsched-spec-load -fgcse-after-reload \
-		  -fforce-addr -ffast-math  -fsingle-precision-constant \
-		  -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -ftree-vectorize  \
-		  -mvectorize-with-neon-quad -marm \
-		  -funroll-loops -mvectorize-with-neon-quad -floop-nest-optimize -pipe \
-		  -fgraphite -floop-interchange -ftree-loop-distribution -floop-strip-mine -floop-block \
-		  -fgraphite-identity -floop-flatten -ftree-loop-linear \
-		  -munaligned-access -fpredictive-commoning \
-		  -funsafe-loop-optimizations -fivopts -ftree-loop-im -ftree-loop-ivcanon -ffunction-sections \
-		  -funswitch-loops -fgcse-las -fweb -frename-registers -frerun-cse-after-loop -fomit-frame-pointer -s
+MODFLAGS	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math  -fsingle-precision-constant -mcpu=cortex-a15 -marm -mfpu=neon-vfpv4 -ftree-vectorize -mvectorize-with-neon-quad -funroll-loops -mvectorize-with-neon-quad
 
-CFLAGS_MODULE   = -DMODULE -fno-pic $(CUSTOM_FLAG)
-AFLAGS_MODULE   = -DMODULE $(CUSTOM_FLAG)
+CFLAGS_MODULE   = -DMODULE $(MODFLAGS)
+AFLAGS_MODULE   = -DMODULE $(MODFLAGS)
 LDFLAGS_MODULE  = 
-CFLAGS_KERNEL	= $(CUSTOM_FLAG)
-AFLAGS_KERNEL	= $(CUSTOM_FLAG)
+CFLAGS_KERNEL	= $(MODFLAGS)
+AFLAGS_KERNEL	= $(MODFLAGS)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -380,19 +371,16 @@ LINUXINCLUDE    := -I$(srctree)/arch/$(hdr-arch)/include \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -Wmaybe-uninitialized\
-	-fno-strict-aliasing -fno-common \
-	-Werror-implicit-function-declaration \
-	-Wno-format-security \
-	-fno-delete-null-pointer-checks $(CUSTOM_FLAG)
-
-# -floop-interchange -ftree-loop-distribution -floop-strip-mine -floop-block
-
-KBUILD_AFLAGS_KERNEL := $(KBUILD_CFLAGS)
-KBUILD_CFLAGS_KERNEL := $(KBUILD_CFLAGS)
+KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+		   -fno-strict-aliasing -fno-common \
+		   -Werror-implicit-function-declaration \
+		   -Wno-format-security \
+		   -fno-delete-null-pointer-checks
+KBUILD_AFLAGS_KERNEL :=
+KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
-KBUILD_AFLAGS_MODULE  := -DMODULE $(KBUILD_CFLAGS)
-KBUILD_CFLAGS_MODULE  := -DMODULE $(KBUILD_CFLAGS)
+KBUILD_AFLAGS_MODULE  := -DMODULE
+KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
@@ -580,23 +568,11 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 endif
-ifdef CONFIG_CC_OPTIMIZE_FOR_DEBUG
-KBUILD_CFLAGS   += -Og
-endif
-ifdef CONFIG_CC_OPTIMIZE_NONE
-KBUILD_CFLAGS   += -O0
-endif
-ifdef CONFIG_CC_OPTIMIZE_SOME
-KBUILD_CFLAGS	+= -O1
-endif
-ifdef CONFIG_CC_OPTIMIZE_MORE
+ifdef CONFIG_CC_OPTIMIZE_DEFAULT
 KBUILD_CFLAGS	+= -O2
 endif
 ifdef CONFIG_CC_OPTIMIZE_ALOT
 KBUILD_CFLAGS	+= -O3
-endif
-ifdef CONFIG_CC_OPTIMIZE_FAST
-KBUILD_CFLAGS	+= -Ofast
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
